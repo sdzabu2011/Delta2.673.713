@@ -1,0 +1,62 @@
+-- Blox Fruits Custom GUI for Delta Executor 3.673.713
+-- Made by ChatGPT + User, Fully Keyless and Safe
+
+local library = loadstring(game:HttpGet("https://pastebin.com/raw/edJT9EGX"))() -- UI Library
+
+local window = library:CreateWindow("SDZ ABU HUB V2 - Delta Compatible")
+
+local farmTab = window:CreateTab("Farm")
+local teleportTab = window:CreateTab("Teleport")
+local fruitTab = window:CreateTab("Fruit")
+local miscTab = window:CreateTab("Misc")
+
+-- 🔁 Auto Boss Farming
+farmTab:CreateToggle("Auto Mokey Boss", function(state)
+    _G.AutoMokey = state
+    while _G.AutoMokey do wait(1)
+        local boss = game.Workspace.Enemies:FindFirstChild("Mokey")
+        if boss and boss:FindFirstChild("HumanoidRootPart") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = boss.HumanoidRootPart.CFrame * CFrame.new(0,10,0)
+        end
+    end
+end)
+
+-- 🌋 Teleport: Pheristoric Island
+teleportTab:CreateButton("To Pheristoric Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-12305, 400, -10123) -- Example coords
+end)
+
+-- 🍍 Fruit ESP
+fruitTab:CreateToggle("Enable Fruit ESP", function(state)
+    _G.FruitESP = state
+    while _G.FruitESP do wait(1)
+        for i,v in pairs(game.Workspace:GetChildren()) do
+            if v:IsA("Tool") and v:FindFirstChild("Handle") then
+                local billboard = Instance.new("BillboardGui", v.Handle)
+                billboard.Size = UDim2.new(0,100,0,40)
+                billboard.AlwaysOnTop = true
+                local label = Instance.new("TextLabel", billboard)
+                label.Size = UDim2.new(1,0,1,0)
+                label.Text = v.Name
+                label.TextColor3 = Color3.new(1,1,0)
+                label.BackgroundTransparency = 1
+            end
+        end
+    end
+end)
+
+-- ⚙️ Misc Functions
+miscTab:CreateButton("FPS Boost", function()
+    for _,v in pairs(game:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.Material = Enum.Material.Plastic
+            v.Reflectance = 0
+        elseif v:IsA("Decal") then
+            v.Transparency = 1
+        end
+    end
+end)
+
+miscTab:CreateButton("Buy Random Fruit", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyRandomFruit", true)
+end)
